@@ -96,7 +96,7 @@ class Field(object):
 
 class BField(Field):
     u0 = 4.0 * np.pi * 10**-7
-    scalefactor=.0000004
+    scalefactor=.0000012
     def field(self, x0, y0, I):
         r = np.sqrt((self.X-x0)**2+(self.Y-y0)**2)
         eps=0.0001
