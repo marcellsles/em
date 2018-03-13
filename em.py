@@ -21,6 +21,11 @@ class Vector(object):
         return np.sqrt(self.x**2+self.y**2)
 
 class Field(object):
+    """
+        The main field object, E and B are derived from this
+
+        Contains the meshgrid and plot functions
+    """
 
     def __init__(self):
         # Make the grid
@@ -70,6 +75,11 @@ class Field(object):
         return Vector(Fx, Fy)
 
     def plot(self, type="vector"):
+        """
+            plot(<type>)
+
+            plot("vector"), plot("line"), plot("vetor and line")
+        """
         #norm = np.sqrt(self.Vx**2+self.Vy**2)
         norm=0.5
         self.Vxp = self.Vx/norm
@@ -95,6 +105,17 @@ class Field(object):
         plt.show()
 
 class BField(Field):
+    """
+        Calculate the Magnetic Field using wire elements.
+
+        .. math::
+
+           B=\\frac{\\mu_0 \cdot I}{2\\pi r}
+
+        We calculate :math:`\\vec{B}` as being perpendicular to :math:`\\vec{r}`
+
+
+    """
     u0 = 4.0 * np.pi * 10**-7
     scalefactor=.0000012
     def field(self, x0, y0, I):
@@ -106,6 +127,18 @@ class BField(Field):
         return Bx_,By_
 
 class EField(Field):
+    """
+        Calculate the Electric Field using point charges.
+
+        .. math::
+
+           E=\\frac{1}{4\\pi \\varepsilon_0} \\frac{\\left|q\\right|}{r^2}
+
+        We calculate :math:`\\vec{E}` as being parallel to :math:`\\vec{r}`
+
+
+    """
+
     e0 = 8e-12
     scalefactor=1500
     oneoverfourpiepsilonnaught=9.0e9
