@@ -169,6 +169,6 @@ if __name__ == "__main__":
     efield = EField()
     efield.add(3,0,1e-9)
     efield.add(-3,0,-1e-9)
-    print efield.probe(1,1)
+    print (efield.probe(1,1))
     efield.plot("vector and line")
     efield.show()
