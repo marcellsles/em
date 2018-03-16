@@ -101,6 +101,9 @@ class Field(object):
             if c.q<0:
                 plt.plot(c.x0,c.y0,'go',markersize=15)
 
+    def save(self, name):
+        plt.savefig(name)
+
     def show(self):
         plt.show()
 
@@ -132,9 +135,32 @@ class EField(Field):
 
         .. math::
 
+
            E=\\frac{1}{4\\pi \\varepsilon_0} \\frac{\\left|q\\right|}{r^2}
 
         We calculate :math:`\\vec{E}` as being parallel to :math:`\\vec{r}`
+
+        Some examples:
+        ~~~~~~~~~~~~~~
+
+        >>> import em
+        >>> E = em.EField()
+        >>> E.add(0,0,3e-9)
+        >>> E.plot()
+        >>> E.save('./pics/onecharge.pdf')
+
+        .. image:: ../pics/onecharge.pdf
+           :height: 100px
+
+        >>> import em
+        >>> E = em.EField()
+        >>> E.add(5,0,3e-9)
+        >>> E.add(-5,0,-3e-9)
+        >>> E.plot("line")
+        >>> E.save('./pics/twocharge.pdf')
+
+        .. image:: ../pics/twocharge.pdf
+           :height: 100px
 
 
     """
