@@ -66,6 +66,23 @@ class Field(object):
         return 0,0
 
     def probe(self,x0, y0):
+        """
+            Probe the field @ x0, y0. The result will be a vector and its norm.
+
+            >>> import em
+            >>> E = em.EField()
+            >>> E.add(0,0,3e-9)
+            >>> vector = E.probe(1,1)
+            >>> print (vector)
+            norm:19.0891833784, x=13.4980910142,y=13.4980910142
+
+            >>> import em
+            >>> B = em.BField()
+            >>> B.add(0,0,1)#one Ampere into the sheet @ 0,0
+            >>> vector = B.probe(1,1)
+            >>> print (vector)
+            norm:1.99985858864e-07, x=1.41411356944e-07,y=-1.41411356944e-07
+        """
         Fx=0
         Fy=0
         for c in self.charges:
@@ -117,6 +134,18 @@ class BField(Field):
 
         We calculate :math:`\\vec{B}` as being perpendicular to :math:`\\vec{r}`
 
+        Some examples:
+
+        >>> import em
+        >>> B = em.BField()
+        >>> B.add(0,0,1)#one Ampere into the sheet @ 0,0
+        >>> B.plot()
+        >>> B.save('./pics/oneWire.pdf')
+
+        .. image:: ../pics/oneWire.pdf
+           :height: 100px
+
+
 
     """
     u0 = 4.0 * np.pi * 10**-7
@@ -127,6 +156,14 @@ class BField(Field):
         reciproke = 1.0/(r+eps)/2/np.pi
         Bx_ = self.u0*I * reciproke**2 * (self.Y-y0)
         By_ = self.u0*I * reciproke**2 * -(self.X-x0)
+        return Bx_,By_
+
+    def fieldAtpoint(self, cx,cy,q,x,y):
+        r = np.sqrt((x-cx)**2+(y-cy)**2)
+        eps=0.0001
+        reciproke = q*self.u0/(2*np.pi*(r+eps))
+        Bx_ = q * reciproke * (y-cy)
+        By_ = q * reciproke * (-x+cx)
         return Bx_,By_
 
 class EField(Field):
@@ -141,7 +178,6 @@ class EField(Field):
         We calculate :math:`\\vec{E}` as being parallel to :math:`\\vec{r}`
 
         Some examples:
-        ~~~~~~~~~~~~~~
 
         >>> import em
         >>> E = em.EField()
